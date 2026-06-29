@@ -62,6 +62,11 @@ For **step-by-step practical implementation** of every technique in this protoco
 | 15 | [After-Action Cleanup Script](HOWTO.md#22-after-action-complete-cleanup-script) |
 | 16 | [Burner Laptop Setup Guide](HOWTO.md#24-burner-laptop-setup-guide) |
 | 17 | [Full Auto-Cleanup Script](HOWTO.md#28-full-auto-cleanup-script) |
+| 18 | [Anonymous Search Engines](HOWTO.md#29-anonymous-search-engines--find-anything-without-being-found) |
+| 19 | [Risk Assessment & Exposure Prevention](HOWTO.md#30-risk-assessment--exposure-prevention) |
+| 20 | [Optional System Setup Tiers](HOWTO.md#31-optional-system-setups--choose-your-security-tier) |
+| 21 | [Resources & Tools Reference](HOWTO.md#32-resources--tools-reference) |
+| 22 | [Emergency Destruction](HOWTO.md#34-emergency-destruction--when-you-need-to-disappear) |
 
 ---
 

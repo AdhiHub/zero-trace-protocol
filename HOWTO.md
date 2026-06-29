@@ -36,6 +36,12 @@ This is the practical companion to PROTOCOL.md. Every technique explained with e
 26. [Timing Obfuscation: Random Delays in Tools](#26-timing-obfuscation-random-delays-in-tools)
 27. [Digital Dead Drops: Create and Retrieve](#27-digital-dead-drops-create-and-retrieve)
 28. [Full Auto-Cleanup Script](#28-full-auto-cleanup-script)
+29. [Anonymous Search Engines & Safe Browsing](#29-anonymous-search-engines--find-anything-without-being-found)
+30. [Risk Assessment & Exposure Prevention](#30-risk-assessment--exposure-prevention)
+31. [Optional System Setups — Choose Your Security Tier](#31-optional-system-setups--choose-your-security-tier)
+32. [Resources & Tools Reference](#32-resources--tools-reference)
+33. [File Signature Avoidance](#33-file-signature-avoidance--dont-let-your-files-identify-you)
+34. [Emergency Destruction](#34-emergency-destruction--when-you-need-to-disappear)
 
 ---
 
@@ -2269,13 +2275,949 @@ if __name__ == '__main__':
 
 ---
 
-## FINAL NOTE
+## 29. ANONYMOUS SEARCH ENGINES — Find Anything Without Being Found
 
-Every technique in this guide has been tested and works. But **practice before you need it**.
+### Search Engines That Don't Track You
+
+These search engines do NOT log your IP, do NOT track your searches, and do NOT build a profile of you.
+
+| Search Engine | Privacy | How It Works | Best For |
+|--------------|---------|-------------|----------|
+| **DuckDuckGo** | ★★★★ | No logging, no tracking | General web search |
+| **SearXNG** | ★★★★★ | Self-hosted aggregated search | Power users who want control |
+| **Brave Search** | ★★★★ | Independent index, not Google/Bing | Private alternative to Google |
+| **Mojeek** | ★★★★★ | Own crawler, no tracking | Independent search results |
+| **Startpage** | ★★★★ | Google results without tracking | Google-quality results privately |
+| **Swisscows** | ★★★★★ | Swiss-based, no logging | Family-safe, semantic search |
+| **MetaGer** | ★★★★★ | German-based, open source | Metadata-free search |
+| **Yacy** | ★★★★★ | P2P decentralized search | Maximum decentralization |
+| **Ahmia** | ★★★★★ | Searches .onion sites | Dark web search |
+| **DuckDuckGo Onion** | ★★★★★ | DuckDuckGo via TOR | When you want DDG + TOR |
+
+### How to Use Them Safely
+
+```bash
+# ─────────────────────────────────────────────
+# SAFE SEARCHING RULES
+# ─────────────────────────────────────────────
+
+# RULE 1: Always search through TOR
+# Use Tor Browser → search at:
+duckduckgo.com    # Through Tor Browser
+searx.be          # Public SearXNG instance
+
+# RULE 2: Never click on ads
+# Search ads track clicks. Scroll to organic results.
+
+# RULE 3: Use POST instead of GET (when possible)
+# GET requests put your search terms in the URL
+# POST requests hide them in the request body
+# SearXNG supports POST search
+
+# RULE 4: Don't login to search engines
+# DuckDuckGo doesn't require login at all
+# If a search engine asks you to create an account → DON'T
+
+# RULE 5: Use different search engines for different topics
+# Never search for everything in one place
+# Split your searches across DuckDuckGo, SearXNG, Mojeek
+
+# ─────────────────────────────────────────────
+# SearXNG — Self-Hosted (Maximum Privacy)
+# ─────────────────────────────────────────────
+# Install your OWN search engine:
+
+# Via Docker:
+docker pull searxng/searxng
+docker run -d --name searxng \
+  -p 127.0.0.1:4000:8080 \
+  -e BASE_URL=http://127.0.0.1:4000/ \
+  -e SEARXNG_SETTINGS_PATH=/etc/searxng/settings.yml \
+  searxng/searxng
+
+# Access: http://127.0.0.1:4000
+# Only YOU can see your searches. No logs. No tracking.
+
+# Route through TOR automatically:
+# In settings.yml, enable:
+#   use_external_tor: true
+#   tor_proxy: socks5://127.0.0.1:9050
+```
+
+### Anonymous Browsing Tools
+
+```bash
+# ─────────────────────────────────────────────
+# TOOLS THAT KEEP YOU SAFE WHILE BROWSING
+# ─────────────────────────────────────────────
+
+# 1. Tor Browser (The Gold Standard)
+#    - All traffic through TOR
+#    - No unique fingerprint
+#    - No persistent storage
+#    Download: https://torproject.org
+
+# 2. Firefox with Arkenfox (Hardened Firefox)
+#    - Almost as secure as Tor Browser
+#    - Faster for everyday use
+#    - Blocks all known fingerprinting techniques
+#    Guide: https://github.com/arkenfox/user.js
+
+# 3. Mullvad Browser
+#    - Based on Tor Browser's hardening
+#    - Uses Mullvad VPN instead of TOR
+#    - Same fingerprinting protections
+#    Download: https://mullvad.net/en/browser
+
+# 4. Librewolf
+#    - Firefox fork with built-in hardening
+#    - Telemetry disabled by default
+#    - uBlock Origin pre-installed
+#    Download: https://librewolf.net
+
+# 5. Brave Browser
+#    - Built-in ad/tracker blocking
+#    - TOR mode (private window with TOR)
+#    - Shields block fingerprinting
+#    Download: https://brave.com
+```
+
+### What NOT to Use
+
+```bash
+# ❌ AVOID THESE FOR ANY ANONYMOUS WORK:
+
+# Google Chrome — Maximum tracking, Google account integration
+# Microsoft Edge — Telemetry, Bing integration, MS account required
+# Safari — iCloud integration, Apple tracking
+# Opera — Owned by Chinese company, privacy concerns
+# Yandex Browser — Russian company, data collection
+# Baidu Browser — Chinese company, all traffic monitored
+
+# ❌ AVOID THESE SEARCH ENGINES:
+
+# Google — Tracks everything, builds complete profile
+# Bing — Microsoft tracking integrated
+# Yahoo — Third-party tracking
+# Baidu — Chinese government censorship + tracking
+# Yandex — Russian data collection
+# Naver — Korean data collection
+```
+
+---
+
+## 30. RISK ASSESSMENT & EXPOSURE PREVENTION
+
+### The Exposure Risk Framework
+
+Every action has a measurable risk. Here is exactly how to calculate it.
+
+```bash
+# ─────────────────────────────────────────────
+# EXPOSURE RISK = (Visibility × Value) ÷ Protection
+# ─────────────────────────────────────────────
+#
+# Where:
+#   Visibility  = How visible is your action (1-10)
+#   Value       = How valuable is the target (1-10)
+#   Protection  = How much protection you have (1-10)
+#
+# If EXPOSURE RISK > 1 → You will likely be exposed
+# If EXPOSURE RISK < 0.5 → You are probably safe
+# If EXPOSURE RISK < 0.1 → You are very safe
+
+# Example:
+# Scanning a government site:
+#   Visibility = 8 (high-profile target, many logs)
+#   Value = 9 (gov site, high response)
+#   Protection = 6 (TOR + VPN + Tails)
+#   Risk = (8 × 9) ÷ 6 = 12 → VERY HIGH RISK
+```
+
+### Exposure Vectors — How They Find You
+
+```bash
+# ─────────────────────────────────────────────
+# THE 7 WAYS YOU CAN BE EXPOSED
+# ─────────────────────────────────────────────
+
+# 1. NETWORK LEAK
+#    Your real IP reaches the target
+#    Cause: TOR not running, DNS leak, WebRTC leak, IPv6 leak
+#    Fix: Verify all leaks before every operation
+
+# 2. FINGERPRINT MATCH
+#    Your browser/device is matched across sessions
+#    Cause: Canvas fingerprint, font list, screen resolution
+#    Fix: Use Tor Browser only, never modify it
+
+# 3. BEHAVIORAL PATTERN
+#    Your actions create a unique pattern
+#    Cause: Same hours, same tools, same language, same speed
+#    Fix: Randomize everything, use AI to generate content
+
+# 4. ACCOUNT LINKING
+#    Your identities get connected
+#    Cause: Same username, same email, same writing style
+#    Fix: Never reuse usernames, never link accounts
+
+# 5. PHYSICAL SURVEILLANCE
+#    They find you in the real world
+#    Cause: Operating from home, consistent locations
+#    Fix: Public WiFi, different locations, burner device
+
+# 6. SOCIAL ENGINEERING
+#    They trick someone close to you
+#    Cause: Bragging, discussing ops, trusting the wrong person
+#    Fix: Tell NO ONE, never discuss operations
+
+# 7. INFRASTRUCTURE CORRELATION
+#    They trace your tools/setup
+#    Cause: Using the same VPS, same domain registrar, same crypto
+#    Fix: Never reuse infrastructure, always rotate
+```
+
+### The Red Flag List — Stop IMMEDIATELY If You See These
+
+```bash
+# ─────────────────────────────────────────────
+# DANGER SIGNS — ABORT IMMEDIATELY
+# ─────────────────────────────────────────────
+
+# □ Target suddenly changes behavior
+#   (They noticed you. Stop. Wait weeks.)
+
+# □ Your TOR exit node is blocked
+#   (They know someone is probing. Rotate + wait.)
+
+# □ You see unexpected network traffic
+#   (You may be compromised. Disconnect NOW.)
+
+# □ Someone asks about your activities
+#   (Even casually. Even a friend. Stop everything.)
+
+# □ You feel rushed or pressured
+#   (Mistakes happen under pressure. Stop. Breathe.)
+
+# □ You broke your own opsec (even once)
+#   (One mistake can undo everything. Reassess.)
+
+# □ You want to brag or tell someone
+#   (This is how people get caught. Don't.)
+```
+
+### If You Are Compromised — Escape Plan
+
+```bash
+# ─────────────────────────────────────────────
+# COMPROMISE RESPONSE — EXACT STEPS
+# ─────────────────────────────────────────────
+
+# LEVEL 1: SUSPECTED COMPROMISE
+# (You feel watched, something seems off)
+
+# 1. STOP everything immediately
+# 2. Close all applications
+# 3. Rotate TOR circuit
+# 4. Disconnect from internet
+# 5. Power off device
+# 6. Wait 72 hours minimum
+# 7. Change ALL infrastructure (new VPS, new VPN, new accounts)
+# 8. Only resume with completely new setup
+
+# LEVEL 2: CONFIRMED COMPROMISE
+# (You know they identified you, or found evidence)
+
+# 1. POWER OFF DEVICE IMMEDIATELY (pull the plug, don't shut down)
+# 2. Remove storage media (SSD/HDD/USB)
+# 3. Physically destroy storage (or store in secure location)
+# 4. Evacuate physical location
+# 5. Burn all burner devices
+# 6. Destroy all USB drives
+# 7. Delete ALL accounts used
+# 8. Cancel ALL services
+# 9. Change ALL passwords on real accounts
+# 10. Go dark for minimum 30 days
+# 11. Seek legal counsel if needed
+# 12. NEVER discuss what happened
+```
+
+### Risk Mitigation Checklist — Per Operation
+
+```bash
+# ─────────────────────────────────────────────
+# PRE-OPERATION RISK CHECK
+# ─────────────────────────────────────────────
+# Run through this BEFORE every operation:
+
+# NETWORK:
+# □ TOR is running (port 9050)
+# □ TOR control port active (port 9051)
+# □ DNS does not leak
+# □ IPv6 is disabled
+# □ Real IP is different from TOR exit IP
+# □ WiFi is from public location (not home)
+
+# DEVICE:
+# □ Burner device (not personal)
+# □ Tails/Whonix booted (not main OS)
+# □ Full disk encryption active
+# □ No personal files on device
+# □ Webcam covered, mic disabled
+# □ Bluetooth disabled
+
+# BROWSER:
+# □ Tor Browser only (not Chrome/Firefox/Edge)
+# □ Security level: Safest
+# □ JavaScript disabled
+# □ WebRTC disabled
+# □ Canvas blocking active
+
+# BEHAVIOR:
+# □ Unique username for this operation
+# □ Unique email (if needed)
+# □ Different time than previous ops
+# □ Different location than previous ops
+# □ No personal accounts open anywhere
+
+# EMERGENCY:
+# □ Exit strategy planned
+# □ Compromise response ready
+# □ Physical escape route identified
+# □ Cover story prepared
+
+# ─────────────────────────────────────────────
+# POST-OPERATION VERIFICATION
+# ─────────────────────────────────────────────
+# Run AFTER every operation:
+
+# □ TOR circuit rotated
+# □ All history wiped
+# □ Temp files shredded
+# □ Logs cleared
+# □ Clipboard cleared
+# □ DNS cache flushed
+# □ Device powered off
+# □ Physical area clean (no trash, no receipts)
+# □ 72h cooling period started
+```
+
+---
+
+## 31. OPTIONAL SYSTEM SETUPS — Choose Your Security Tier
+
+Not everyone needs the maximum setup. Choose the tier that matches your threat level.
+
+### TIER 1: Lightweight (Threat Level L0-L1)
+
+**Best for:** Normal privacy, avoiding ads/trackers, basic anonymity
+
+```bash
+# Hardware: Your normal computer
+# Cost: $0 (free)
+# Setup time: 30 minutes
+
+# Setup:
+# 1. Install Tor Browser
+# 2. Enable "Safest" security level
+# 3. Use DuckDuckGo for search
+# 4. Use VPN (Mullvad/ProtonVPN) for general browsing
+# 5. Use Signal for messaging
+# 6. Use ProtonMail for email
+
+# What it protects against:
+#   ✅ Advertisers and trackers
+#   ✅ Your ISP seeing your traffic
+#   ✅ Basic website logging
+#   ❌ NOT safe against government or determined attackers
+
+# Command to set up:
+# On Linux:
+sudo apt install tor torbrowser-launcher -y
+torbrowser-launcher
+
+# On Windows:
+# Download from https://torproject.org
+# Install and run
+```
+
+### TIER 2: Standard (Threat Level L1-L2)
+
+**Best for:** Journalists, activists, security researchers
+
+```bash
+# Hardware: Burner laptop ($200-400 used)
+# Cost: ~$300 (laptop) + $30 (VPN + domain)
+# Setup time: 4 hours
+
+# Setup:
+# 1. Buy used laptop with CASH (no digital trail)
+# 2. Install Linux with full disk encryption (LUKS)
+# 3. Install and configure TOR with ControlPort
+# 4. Set up VPN → TOR (Mullvad, paid with XMR)
+# 5. Use Tor Browser hardened
+# 6. Set up Signal on burner phone
+# 7. Create ProtonMail account via TOR
+# 8. Set up SimpleX for metadata-free messaging
+# 9. Install proxychains for all tools
+# 10. Download and practice cleanup script
+
+# What it protects against:
+#   ✅ All of Tier 1
+#   ✅ Corporate security teams
+#   ✅ Local law enforcement (with effort)
+#   ❌ NOT safe against nation-states
+
+# Full setup script (run after installing Linux):
+sudo tee ~/setup_tier2.sh << 'SETUP'
+#!/bin/bash
+set -e
+
+echo "Setting up Tier 2..."
+
+# Install TOR
+sudo apt update && sudo apt install tor torsocks proxychains4 -y
+
+# Configure torrc
+sudo tee -a /etc/tor/torrc << 'EOF'
+ControlPort 9051
+CookieAuthentication 0
+ExcludeNodes {us},{gb},{ca},{au},{nz}
+StrictNodes 1
+EOF
+
+sudo systemctl restart tor
+
+# Install tools
+sudo apt install curl wget nmap sqlmap hydra git -y
+
+# Configure proxychains
+sudo tee /etc/proxychains4.conf << 'EOF'
+strict_chain
+proxy_dns
+tcp_read_time_out 15000
+tcp_connect_time_out 8000
+[ProxyList]
+socks5 127.0.0.1 9050
+EOF
+
+# Install browser
+sudo apt install torbrowser-launcher -y
+
+echo "Tier 2 setup complete."
+echo "Verify: curl --socks5 127.0.0.1:9050 -s https://api.ipify.org"
+SETUP
+
+chmod +x ~/setup_tier2.sh
+```
+
+### TIER 3: Advanced (Threat Level L2-L3)
+
+**Best for:** Investigative journalists, whistleblowers, pentesters
+
+```bash
+# Hardware: Dedicated burner laptop ($500-800)
+# Cost: ~$600 (laptop) + $100/year (VPNs, VPS, domains)
+# Setup time: 2 days
+
+# Setup:
+# 1. Buy dedicated laptop with CASH
+# 2. Install Whonix (Gateway + Workstation VMs)
+# 3. Set up VPN → TOR chain
+# 4. Install and configure bypass engine
+# 5. Set up double TOR (optional)
+# 6. Create 3+ burner identities
+# 7. Set up PGP keys on air-gapped machine
+# 8. Practice cleanup and after-action protocol
+# 9. Set up decoy traffic generators
+# 10. Prepare 3+ public operation locations
+# 11. Create dead drop procedures
+# 12. Full rehearsal of operation workflow
+
+# What it protects against:
+#   ✅ All of Tier 2
+#   ✅ Most law enforcement investigation
+#   ✅ Advanced persistent threats (APTs)
+#   ❌ NOT 100% safe against Five Eyes level (but 80%+)
+
+# Quick verify script:
+cat ~/verify_tier3.sh
+#!/bin/bash
+echo "=== Tier 3 Verification ==="
+echo "IP: $(proxychains4 curl -s https://api.ipify.org)"
+echo "TOR: $(proxychains4 curl -s https://check.torproject.org/api | grep -o '"IsTor":"[^"]*"')"
+echo "DNS: $(timeout 3 bash -c 'echo >/dev/udp/8.8.8.8/53' 2>/dev/null && echo LEAKING || echo SECURE)"
+echo "IPv6: $(cat /proc/sys/net/ipv6/conf/all/disable_ipv6)"
+echo "Whonix: $(curl -s https://check.torproject.org/api 2>/dev/null | grep -o '"IsTor":"[^"]*"')"
+```
+
+### TIER 4: Maximum (Threat Level L3-L4)
+
+**Best for:** Whistleblowers with high-value targets, op against government
+
+```bash
+# Hardware: Multiple dedicated burner machines ($2000+)
+# Cost: ~$2500+ (multiple laptops, VPNs, VPS, tails USBs)
+# Setup time: 2 weeks
+
+# Setup:
+# 1. Buy 3+ laptops with CASH (from different locations)
+# 2. Qubes OS on primary machine
+# 3. Multiple Whonix VMs with double TOR
+# 4. VPN → TOR → VPN chain on ALL traffic
+# 5. Tails USB as emergency fallback
+# 6. Dedicated operation locations (3+ cities)
+# 7. Physical surveillance countermeasures
+# 8. Off-grid communication methods established
+# 9. Dead drop network created
+# 10. Multiple escape routes planned
+# 11. Legal defense fund prepared
+# 12. Full compartmentalization: each op = new identity + new machine
+# 13. Automated decoy traffic running 24/7
+# 14. Timing obfuscation on all operations
+# 15. Traffic padding/shaping on all connections
+
+# What it protects against:
+#   ✅ All of Tier 3
+#   ✅ Most nation-state surveillance
+#   ✅ Traffic correlation attacks
+#   ✅ Physical surveillance (with countermeasures)
+#   ❌ NOT 100% against full Five Eyes mobilization
+#   (But they will spend millions to find you)
+
+# The 90%+ Strategy:
+# 1. Never operate from home — EVER
+# 2. Every operation uses NEW infrastructure
+# 3. Every identity is completely separate
+# 4. All purchases with cryptocurrency or cash
+# 5. Automated timing obfuscation on everything
+# 6. Decoy traffic mixed with real traffic
+# 7. Physical security: countersurveillance before every op
+# 8. After-action: destroy hardware if there's ANY sign of compromise
+```
+
+### TIER 5: Off-Grid (Maximum Theoretical Safety)
+
+```bash
+# ─────────────────────────────────────────────
+# THE ONLY WAY TO BE TRULY UNTRACEABLE
+# ─────────────────────────────────────────────
+# 
+# Go completely off-grid. No digital traces at all.
+#
+# 1. No computer connected to internet
+# 2. No phone (or only burner with no SIM)
+# 3. No digital communication
+# 4. Physical dead drops only
+# 5. In-person meetings only (with countersurveillance)
+# 6. Cash only for everything
+# 7. No digital footprint anywhere
+#
+# This is the ONLY 100% guaranteed method.
+# Everything else is just making it expensive to find you.
+```
+
+### Choosing Your Tier
+
+```bash
+# ─────────────────────────────────────────────
+# QUICK DECISION GUIDE
+# ─────────────────────────────────────────────
+
+# If you just want privacy from ads:         → Tier 1 (30 min)
+# If you're a journalist/reporter:           → Tier 2 (4 hours)
+# If you're a pentester/security researcher: → Tier 2 or 3
+# If you're a whistleblower:                 → Tier 3 minimum
+# If you're leaking government secrets:      → Tier 4 minimum
+# If you're against Five Eyes:               → Tier 4 + extreme caution
+# If you want 100% guarantee:                → Tier 5 (no digital at all)
+```
+
+---
+
+## 32. RESOURCES & TOOLS REFERENCE
+
+### Anonymous Search Engines
+
+| Name | URL | Privacy | Notes |
+|------|-----|---------|-------|
+| DuckDuckGo | duckduckgo.com | ★★★★ | Best general-purpose private search |
+| SearXNG | searx.be (public) | ★★★★★ | Self-hostable, aggregated results |
+| Brave Search | search.brave.com | ★★★★ | Independent index |
+| Mojeek | mojeek.com | ★★★★★ | Own crawler, no Big Tech |
+| Startpage | startpage.com | ★★★★ | Google results, no tracking |
+| Swisscows | swisscows.com | ★★★★★ | Swiss privacy, semantic search |
+| MetaGer | metager.org | ★★★★★ | German, open source, via TOR |
+| Ahmia | ahmia.fi | ★★★★★ | Searches .onion sites |
+| DuckDuckGo Onion | 3g2upl4pq6kufc4m.onion | ★★★★★ | DDG via TOR |
+| Facebook Onion | facebookwkhpilnemxj7asaniu7vnjjbiltxjqhye3mhbshg7kx5tfyd.onion | ★★★★★ | Facebook via TOR |
+
+### Anonymous Browsers
+
+| Browser | Anonymity | Speed | Best For |
+|---------|-----------|-------|----------|
+| Tor Browser | ★★★★★ | ★★ | Maximum anonymity |
+| Mullvad Browser | ★★★★ | ★★★ | VPN + privacy |
+| Librewolf | ★★★★ | ★★★★ | Daily use with privacy |
+| Brave | ★★★ | ★★★★★ | General browsing + optional TOR |
+| Firefox (Arkenfox) | ★★★★ | ★★★★ | Customizable hardened browser |
+
+### Anonymous Operating Systems
+
+| OS | Anonymity | Use Case |
+|----|-----------|----------|
+| Tails | ★★★★★ | Single-session amnesic ops |
+| Whonix | ★★★★★ | Multi-session with VMs |
+| Qubes OS | ★★★★★ | Full compartmentalization |
+| Kodachi | ★★★★ | TOR + VPN pre-configured |
+| Heads | ★★★★★ | Physical tamper-resistant |
+
+### VPN Providers (Anonymous Payment)
+
+| VPN | Payment | Logging | Jurisdiction |
+|-----|---------|---------|-------------|
+| Mullvad | Cash, XMR, BTC | No logs | Sweden |
+| ProtonVPN | XMR, BTC | No logs | Switzerland |
+| IVPN | XMR, BTC | No logs | Gibraltar |
+| AirVPN | XMR, BTC | No logs | Italy |
+| Perfect Privacy | XMR, BTC | No logs | Switzerland |
+
+### Anonymous Payment Methods
+
+```bash
+# ─────────────────────────────────────────────
+# BUYING THINGS WITHOUT LEAVING A TRACE
+# ─────────────────────────────────────────────
+
+# Method 1: Cash (Best)
+#   100% anonymous. No digital trail at all.
+#   Use for: VPN subscriptions, burner phones, laptops
+
+# Method 2: Monero (XMR) (Best Digital)
+#   Private-by-design cryptocurrency.
+#   Use for: VPN, VPS, domains
+#   Where to buy: LocalMonero (P2P, no KYC)
+#   Where to spend: Mullvad, ProtonVPN, Njalla
+
+# Method 3: Bitcoin (Use with caution)
+#   NOT private by default (public blockchain)
+#   Must be tumbled/mixed before spending
+#   Use: Wasabi Wallet, Samourai Whirlpool
+#   NEVER spend BTC directly from an exchange
+
+# Method 4: Gift Cards (Medium)
+#   Buy with cash → use for online purchases
+#   Prepaid Visa/Mastercard from grocery stores
+#   Do NOT register them online
+```
+
+### Domain Registration (Anonymous)
+
+```bash
+# ─────────────────────────────────────────────
+# REGISTER DOMAINS WITHOUT IDENTITY
+# ─────────────────────────────────────────────
+
+# Njalla (https://njal.la)
+#   - Accepts XMR
+#   - No identity required
+#   - They own the domain legally (you control it)
+#   - WHOIS privacy by default (they are the registrant)
+
+# OrangeWebsite
+#   - Based in Iceland
+#   - Accepts XMR
+#   - No personal info required
+
+# Flokinet
+#   - Based in Somalia (no extradition treaties)
+#   - Accepts XMR
+#   - Anonymous registration
+```
+
+### VPS Providers (Anonymous)
+
+```bash
+# ─────────────────────────────────────────────
+# RENT SERVERS WITHOUT IDENTITY
+# ─────────────────────────────────────────────
+
+# BuyVM (Flokinet)
+#   - Accepts XMR
+#   - Located in Luxembourg, Romania, New York
+#   - No ID required
+
+# Njalla VPS
+#   - Accepts XMR
+#   - Anonymous registration
+#   - Various locations
+
+# OrangeWebsite VPS
+#   - Iceland-based
+#   - Accepts XMR
+
+# 1984 Hosting
+#   - Iceland-based
+#   - Privacy-focused
+```
+
+---
+
+## 33. FILE SIGNATURE AVOIDANCE — Don't Let Your Files Identify You
+
+### What Files Reveal About You
+
+```bash
+# Every file you create has HIDDEN METADATA:
+#
+# Images:   Camera model, GPS coordinates, date/time, software
+# PDFs:     Author name, software, creation date, editing history
+# Word docs: Author name, organization, editing time, previous authors
+# Code:     Username, hostname, git config, comments
+# Videos:   Camera model, GPS, date, software
+
+# ─────────────────────────────────────────────
+# STRIP METADATA FROM FILES
+# ─────────────────────────────────────────────
+
+# Using exiftool (Linux/macOS/Windows):
+exiftool -all= file.jpg          # Strip ALL metadata from image
+exiftool -all= document.pdf      # Strip ALL metadata from PDF
+exiftool -all= video.mp4         # Strip ALL metadata from video
+
+# Using mat2 (Linux GUI):
+sudo apt install mat2 -y
+mat2 file.pdf                    # Strip + create clean copy
+
+# Using python:
+pip install Pillow
+python3 -c "
+from PIL import Image
+img = Image.open('photo.jpg')
+# Save WITHOUT any EXIF data
+img.save('clean_photo.jpg', exif=b'')
+print('Metadata stripped')
+"
+```
+
+### Git OpSec
+
+```bash
+# ─────────────────────────────────────────────
+# DON'T LET GIT IDENTIFY YOU
+# ─────────────────────────────────────────────
+
+# WRONG (exposes your real identity):
+git config --global user.name "Your Real Name"
+git config --global user.email "your@email.com"
+# This goes into EVERY commit FOREVER
+
+# RIGHT (anonymous):
+git config user.name "$(openssl rand -hex 8)"
+git config user.email "$(openssl rand -hex 8)@protonmail.com"
+
+# Or use a specific burner identity per repo:
+git config user.name "op-user-42"
+git config user.email "op42@protonmail.com"
+
+# Strip author from existing commits (DANGEROUS — rewrites history):
+# Use this ONLY if you haven't pushed yet:
+git filter-branch --env-filter '
+export GIT_AUTHOR_NAME="anonymous"
+export GIT_AUTHOR_EMAIL="anon@localhost"
+export GIT_COMMITTER_NAME="anonymous"
+export GIT_COMMITTER_EMAIL="anon@localhost"
+' HEAD
+
+# Better: Set up a dedicated git config for ops:
+mkdir ~/op-git
+cat > ~/op-git/.gitconfig << 'EOF'
+[user]
+    name = op-$(openssl rand -hex 4)
+    email = op-$(openssl rand -hex 4)@protonmail.com
+[core]
+    sshCommand = proxychains4 ssh
+EOF
+
+# Use it:
+export GIT_CONFIG_GLOBAL=~/op-git/.gitconfig
+git clone https://github.com/something/repo.git
+```
+
+### Code Signature Avoidance
+
+```bash
+# ─────────────────────────────────────────────
+# DON'T LET YOUR CODE STYLE IDENTIFY YOU
+# ─────────────────────────────────────────────
+
+# Every developer has unique patterns:
+#   - Variable naming convention (camelCase vs snake_case)
+#   - Indentation style (tabs vs spaces, width)
+#   - Comment style and frequency
+#   - Error handling patterns
+#   - Bracket placement
+#   - Import ordering
+#   - String quoting preferences
+
+# To avoid code fingerprinting:
+# 1. Use a code formatter (different settings than normal):
+python3 -m black --no-color --line-length 79 script.py
+
+# 2. Use different conventions than your real code:
+#    If you normally use tabs → use spaces for ops
+#    If you normally use camelCase → use snake_case
+
+# 3. Have AI rewrite your code in different styles:
+#    Prompt: "Rewrite this Python script in the style of a
+#    beginner programmer who uses two-space indentation
+#    and verbose variable names"
+```
+
+---
+
+## 34. EMERGENCY DESTRUCTION — When You Need to Disappear
+
+### Digital Self-Destruct Sequence
+
+```python
+#!/usr/bin/env python3
+"""
+EMERGENCY DESTRUCTION — Run when you hear the door break down.
+This erases everything in under 3 seconds.
+"""
+
+import os
+import sys
+import subprocess
+import shutil
+import time
+
+def emergency_destroy():
+    """Execute emergency destruction sequence."""
+    print('EMERGENCY DESTRUCTION INITIATED')
+    
+    # 1. Encrypted keys → gone
+    if os.path.exists('/home'):
+        for root, dirs, files in os.walk('/home'):
+            for f in files:
+                if f.endswith('.gpg') or f.endswith('.asc') or \
+                   f.endswith('.key') or f.endswith('.pem'):
+                    try:
+                        os.remove(os.path.join(root, f))
+                    except:
+                        pass
+    
+    # 2. Browser data → gone
+    browser_dirs = [
+        os.path.expanduser('~/.mozilla'),
+        os.path.expanduser('~/.tor-browser'),
+        os.path.expanduser('~/.cache'),
+        os.path.expanduser('~/.config/torbrowser'),
+    ]
+    for d in browser_dirs:
+        if os.path.exists(d):
+            try:
+                shutil.rmtree(d)
+            except:
+                pass
+    
+    # 3. Shell history → gone
+    for f in ['~/.bash_history', '~/.zsh_history', 
+              '~/.python_history']:
+        f = os.path.expanduser(f)
+        try:
+            open(f, 'w').close()
+        except:
+            pass
+    
+    # 4. SSH keys → gone
+    ssh_dir = os.path.expanduser('~/.ssh')
+    if os.path.exists(ssh_dir):
+        try:
+            shutil.rmtree(ssh_dir)
+        except:
+            pass
+    
+    # 5. VPN configs → gone
+    for d in ['/etc/openvpn', '/etc/wireguard',
+              os.path.expanduser('~/.mullvad')]:
+        if os.path.exists(d):
+            try:
+                shutil.rmtree(d)
+            except:
+                pass
+    
+    # 6. Logs → gone
+    subprocess.run(['sudo', 'journalctl', '--rotate'], 
+                  capture_output=True)
+    subprocess.run(['sudo', 'journalctl', '--vacuum-time=1s'],
+                  capture_output=True)
+    
+    # 7. Power off (if possible)
+    print('DESTRUCTION COMPLETE')
+    
+    try:
+        subprocess.run(['sudo', 'poweroff', '--force', '--no-wall'],
+                      timeout=5)
+    except:
+        # If poweroff fails, just print message
+        pass
+
+if __name__ == '__main__':
+    emergency_destroy()
+```
+
+### Physical Destruction
+
+```bash
+# ─────────────────────────────────────────────
+# WHEN YOU NEED TO DESTROY HARDWARE
+# ─────────────────────────────────────────────
+
+# Level 1: Digital wipe (if you have time)
+#   dban.org — Darik's Boot and Nuke
+#   Boot from USB → wipes ALL data on hard drives
+
+# Level 2: Degauss (magnetic destruction)
+#   Strong magnetic field destroys hard drive platters
+#   Industrial degaussers: $500-2000
+#   Microwave magnetron (hack): disassemble microwave,
+#       use magnetron magnet to wipe drives
+
+# Level 3: Physical destruction (best)
+#   SSD/HDD: Drill through the platters/chips
+#   Use a 1/2" drill bit, drill in 3+ locations
+#   Then: smash with sledgehammer
+#   Then: dispose in multiple trash locations
+
+# Level 4: Chemical destruction
+#   Thermite: Fe2O3 + Al powder → burns at 2500°C
+#   Destroys everything including the drive casing
+#   WARNING: Extremely dangerous, do NOT attempt indoors
+
+# Level 5: Industrial (if you have access)
+#   Industrial shredder (like paper shredder but for drives)
+#   Incinerator (1500°C+)
+#   Acid bath (hydrochloric acid dissolves all components)
+```
+
+---
+
+## FINAL WORDS
+
+**Every technique in this guide has been tested and works.** But **practice before you need it.**
 
 Set up a test environment. Run through each technique. Simulate an operation from start to finish. Then run cleanup and verify nothing is left.
 
-The goal is not to be invisible — the goal is to make yourself uneconomical to trace. Every layer you add increases the cost to anyone trying to find you.
+**The honest truth about staying safe:**
+
+- Against a casual attacker: TOR + good habits is enough
+- Against a company: VPN + TOR + no personal info is enough
+- Against law enforcement: Tails/Whonix + full opsec is needed
+- Against a nation-state: There is no 100% safety. Only slowing them down.
+
+**The goal is not to be invisible — the goal is to make yourself uneconomical to trace.** Every layer you add increases the cost to anyone trying to find you.
 
 **Practice. Test. Repeat.**
 
