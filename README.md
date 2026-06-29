@@ -28,12 +28,13 @@ A comprehensive, end-to-end protocol covering **10 layers** of operational secur
 
 ## Contents
 
-- [`PROTOCOL.md`](PROTOCOL.md) — Full protocol in markdown
+- [`PROTOCOL.md`](PROTOCOL.md) — Full protocol (WHAT to do)
+- [`HOWTO.md`](HOWTO.md) — **28 step-by-step practical implementation guides** (HOW to do it)
 - [`index.html`](index.html) — Self-contained beautiful webpage
 
 ## Usage
 
-Open `index.html` in any browser, or read `PROTOCOL.md` directly.
+Open `index.html` in any browser, or read `PROTOCOL.md` and `HOWTO.md` directly.
 
 ## Quick Start
 

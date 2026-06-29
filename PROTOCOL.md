@@ -8,6 +8,12 @@
 
 ---
 
+> **💡 NEW: Practical Step-by-Step Guides Available!**  
+> This document covers **WHAT** to do. For **HOW** to do it step-by-step with exact commands, configurations, and walkthroughs, see the companion guide:  
+> **👉 [`HOWTO.md`](HOWTO.md) — 28 detailed implementation guides**
+
+---
+
 > **WARNING:** This document is for educational and defensive security purposes only. The techniques described are meant to help security professionals, journalists, activists, and privacy-conscious individuals protect themselves. Misuse of this information may violate laws in your jurisdiction.
 
 ---
@@ -32,6 +38,34 @@
 16. [Checklist: Quick Start](#16-checklist-quick-start)
 
 ---
+
+## 📘 Companion Guide: [HOWTO.md](HOWTO.md)
+
+For **step-by-step practical implementation** of every technique in this protocol (exact commands, configurations, walkthroughs), see the companion HOWTO:
+
+| # | Guide |
+|---|-------|
+| 1 | [TOR: Install, Configure, Harden](HOWTO.md#1-tor-install-configure-harden) |
+| 2 | [TOR Circuit Rotation](HOWTO.md#2-tor-circuit-rotation) |
+| 3 | [VPN → TOR → VPN: Complete Setup](HOWTO.md#3-vpn--tor--vpn-complete-setup) |
+| 4 | [Double TOR with Whonix](HOWTO.md#4-double-tor-with-whonix) |
+| 5 | [DNS Leak Fix Step by Step](HOWTO.md#5-dns-leak-fix-step-by-step) |
+| 6 | [MAC Spoofing: Linux + Windows](HOWTO.md#8-mac-spoofing-linux--windows) |
+| 7 | [Proxychains: Force Any Tool Through TOR](HOWTO.md#9-proxychains-force-any-tool-through-tor) |
+| 8 | [Tails OS: Install and Harden](HOWTO.md#11-tails-os-install-and-harden) |
+| 9 | [Whonix: Install and Configure](HOWTO.md#12-whonix-install-and-configure) |
+| 10 | [Signal Anonymous Setup](HOWTO.md#13-signal-anonymous-setup) |
+| 11 | [SimpleX Zero-Identity Setup](HOWTO.md#14-simplex-zero-identity-setup) |
+| 12 | [PGP Key: Create Anonymously](HOWTO.md#15-pgp-key-create-and-use-anonymously) |
+| 13 | [Tor Browser Maximum Hardening](HOWTO.md#17-tor-browser-maximum-hardening) |
+| 14 | [Full Disk Encryption LUKS](HOWTO.md#21-full-disk-encryption-luks-step-by-step) |
+| 15 | [After-Action Cleanup Script](HOWTO.md#22-after-action-complete-cleanup-script) |
+| 16 | [Burner Laptop Setup Guide](HOWTO.md#24-burner-laptop-setup-guide) |
+| 17 | [Full Auto-Cleanup Script](HOWTO.md#28-full-auto-cleanup-script) |
+
+---
+
+## TABLE OF CONTENTS
 
 ## 1. THE PHILOSOPHY OF ZERO TRACE
 
