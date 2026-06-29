@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZERO TRACE PROTOCOL — Complete Anonymity Guide</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --fg: #c8c8d4;
+    --fg2: #8888a0;
+    --accent: #00ff88;
+    --accent2: #00cc66;
+    --red: #ff3355;
+    --orange: #ff8800;
+    --blue: #3399ff;
+    --purple: #8844ff;
+    --yellow: #ffcc00;
+    --border: #222230;
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    line-height: 1.7;
+    display: flex;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--fg2); }
+
+  /* Sidebar */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 20px 0;
+  }
+  #sidebar .logo {
+    padding: 10px 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  #sidebar .logo h1 { font-size: 14px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+  #sidebar .logo p { font-size: 11px; color: var(--fg2); margin-top: 2px; }
+  #sidebar a {
+    display: block;
+    padding: 6px 20px;
+    color: var(--fg2);
+    text-decoration: none;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  #sidebar a:hover, #sidebar a.active {
+    color: var(--accent);
+    background: rgba(0,255,136,0.04);
+    border-left-color: var(--accent);
+  }
+  #sidebar .section-label {
+    padding: 15px 20px 4px;
+    font-size: 10px;
+    color: var(--fg2);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    opacity: 0.5;
+  }
+
+  /* Toggle for mobile */
+  #sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 12px; left: 12px;
+    z-index: 200;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+  }
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 99;
+  }
+
+  /* Main */
+  #main {
+    margin-left: 280px;
+    padding: 0;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--bg) 0%, #0d1a12 50%, var(--bg) 100%);
+  }
+  .hero .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 11px;
+    font-family: var(--mono);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p {
+    font-size: 16px;
+    color: var(--fg2);
+    margin-top: 16px;
+    max-width: 600px;
+    line-height: 1.8;
+  }
+  .hero .meta {
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--fg2);
+    font-family: var(--mono);
+  }
+
+  /* Content */
+  .content { padding: 40px 60px 100px; }
+
+  /* Sections */
+  .section {
+    margin-bottom: 60px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-number {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .section h2 {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .section h3 {
+    font-size: 17px;
+    color: var(--accent);
+    margin: 28px 0 12px;
+  }
+  .section h4 {
+    font-size: 15px;
+    color: #fff;
+    margin: 20px 0 8px;
+  }
+  .section p {
+    margin-bottom: 12px;
+    color: var(--fg);
+  }
+  .section ul, .section ol {
+    margin: 8px 0 16px 20px;
+  }
+  .section li {
+    margin-bottom: 6px;
+  }
+
+  /* Code blocks */
+  pre {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 16px 0;
+    position: relative;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--bg3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--fg);
+  }
+  .lang-label {
+    position: absolute;
+    top: 8px; right: 12px;
+    font-size: 10px;
+    color: var(--fg2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--mono);
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  th {
+    background: var(--bg3);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td { color: var(--fg); }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 12px 20px;
+    margin: 16px 0;
+    background: rgba(0,255,136,0.04);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--fg2);
+  }
+  blockquote strong { color: var(--fg); }
+
+  /* Warning boxes */
+  .warning {
+    background: rgba(255,51,85,0.08);
+    border: 1px solid rgba(255,51,85,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    color: var(--red);
+    font-size: 14px;
+  }
+  .warning strong { color: #fff; }
+
+  .info-box {
+    background: rgba(51,153,255,0.08);
+    border: 1px solid rgba(51,153,255,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    color: var(--blue);
+    font-size: 14px;
+  }
+
+  /* Checkbox list */
+  .checklist { list-style: none; margin-left: 0 !important; }
+  .checklist li::before {
+    content: "□ ";
+    color: var(--fg2);
+  }
+
+  /* Grid for cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card h4 { margin-top: 0; color: var(--accent); font-size: 13px; }
+  .card p { font-size: 13px; margin: 0; color: var(--fg2); }
+  .card .stars { color: var(--yellow); font-size: 12px; margin-top: 6px; }
+
+  /* Threat matrix */
+  .threat-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 80px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    align-items: center;
+  }
+  .threat-row:first-child {
+    border-top: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .threat-row .level { color: var(--orange); font-weight: 600; }
+  .threat-row .resources { color: var(--fg2); }
+  .threat-row .capability { color: var(--fg); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    #sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+      width: 260px;
+    }
+    #sidebar.open { transform: translateX(0); }
+    #sidebar-toggle { display: flex; }
+    #sidebar-overlay.show { display: block; }
+    #main { margin-left: 0; }
+    .hero { padding: 60px 24px 40px; }
+    .hero h1 { font-size: 28px; }
+    .content { padding: 24px 20px 60px; }
+    .section-number { width: 28px; height: 28px; font-size: 12px; }
+    .section h2 { font-size: 18px; }
+    .card-grid { grid-template-columns: 1fr; }
+    table { font-size: 12px; }
+    th, td { padding: 6px 8px; }
+    .threat-row { grid-template-columns: 80px 1fr 60px; font-size: 11px; }
+  }
+
+  /* Print */
+  @media print {
+    #sidebar, #sidebar-toggle, #sidebar-overlay { display: none !important; }
+    #main { margin-left: 0; }
+    .hero { padding: 40px; }
+    .content { padding: 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar Toggle -->
+<button id="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<nav id="sidebar">
+  <div class="logo">
+    <h1>ZERO TRACE</h1>
+    <p>Complete Anonymity Protocol</p>
+  </div>
+  <div class="section-label">Foundation</div>
+  <a href="#philosophy">1. Philosophy</a>
+  <a href="#threat-modeling">2. Threat Modeling</a>
+  <a href="#layer-0">3. Foundation &amp; Mindset</a>
+  <div class="section-label">Layers</div>
+  <a href="#layer-1">4. Network Anonymity</a>
+  <a href="#layer-2">5. OS Security</a>
+  <a href="#layer-3">6. Communication</a>
+  <a href="#layer-4">7. Web &amp; Fingerprinting</a>
+  <a href="#layer-5">8. Tool &amp; Dev OpSec</a>
+  <a href="#layer-6">9. Physical Security</a>
+  <a href="#layer-7">10. Behavioral OpSec</a>
+  <a href="#layer-8">11. Counter-Forensics</a>
+  <a href="#layer-9">12. Nation-State Level</a>
+  <a href="#layer-10">13. After-Action Protocol</a>
+  <div class="section-label">Reference</div>
+  <a href="#myth">14. The 100% Myth</a>
+  <a href="#tools">15. Tool Reference</a>
+  <a href="#quickstart">16. Quick Start</a>
+</nav>
+
+<!-- Main -->
+<div id="main">
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">ZERO TRACE PROTOCOL v2.0</div>
+  <h1>Total <span>Anonymity</span><br>Operational Security</h1>
+  <p>Every action leaves a trace. Your job is not to eliminate traces — it's to make them unlinkable to you. This is the complete guide from basic opsec to nation-state level countermeasures.</p>
+  <div class="meta">AdhiHub Zero Trace Project &mdash; 2026-06-29</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+<!-- Section 1: Philosophy -->
+<div class="section" id="philosophy">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2>The Philosophy of Zero Trace</h2>
+  </div>
+  <p><strong>Zero Trace</strong> means that after you finish an operation, there is <strong>no digital evidence</strong> connecting the action back to you — no IP logs, no browser fingerprints, no metadata, no patterns, no physical traces, no witnesses.</p>
+
+  <h3>Core Principles</h3>
+  <table>
+    <tr><th>Principle</th><th>Meaning</th></tr>
+    <tr><td><strong>Separation</strong></td><td>Your real identity and your operational identity must never touch</td></tr>
+    <tr><td><strong>Compartmentalization</strong></td><td>Each operation is isolated from every other operation</td></tr>
+    <tr><td><strong>Deniability</strong></td><td>If discovered, you can plausibly deny involvement</td></tr>
+    <tr><td><strong>Ephemerality</strong></td><td>Nothing persists unless absolutely necessary</td></tr>
+    <tr><td><strong>Paranoia</strong></td><td>Assume you are being watched at all times</td></tr>
+  </table>
+
+  <h3>The Anonymity Trinity</h3>
+  <pre><span class="lang-label">Architecture</span>
+                    ┌─────────────┐
+                    │  NETWORK    │
+                    │ (Where you  │
+                    │  are from)  │
+                    └──────┬──────┘
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+   ┌──────┴──────┐  ┌─────┴──────┐  ┌─────┴──────┐
+   │  DEVICE     │  │  BEHAVIOR  │  │  IDENTITY  │
+   │ (What you   │  │ (How you   │  │ (Who you   │
+   │  use)       │  │  act)      │  │  are)      │
+   └─────────────┘  └────────────┘  └────────────┘</pre>
+  <blockquote><strong>Break any one of these three, and anonymity is compromised.</strong></blockquote>
+</div>
+
+<!-- Section 2: Threat Modeling -->
+<div class="section" id="threat-modeling">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2>Threat Modeling</h2>
+  </div>
+  <p>Before you do anything, know your enemy.</p>
+
+  <h3>Threat Levels</h3>
+  <table>
+    <tr><th>Level</th><th>Who</th><th>Resources</th><th>What They Can Do</th></tr>
+    <tr><td><strong>L0</strong></td><td>Script kiddies, curious admins</td><td>None</td><td>Basic IP logging</td></tr>
+    <tr><td><strong>L1</strong></td><td>Corporate security</td><td>Medium</td><td>Log analysis, OSINT</td></tr>
+    <tr><td><strong>L2</strong></td><td>Law enforcement</td><td>High</td><td>Subpoenas, ISP cooperation</td></tr>
+    <tr><td><strong>L3</strong></td><td>National intelligence</td><td>Extreme</td><td>Global surveillance, zero-days</td></tr>
+    <tr><td><strong>L4</strong></td><td>Five Eyes + alliance</td><td>Maximum</td><td>Total traffic correlation, physical surveillance</td></tr>
+  </table>
+
+  <h3>Your Threat Model</h3>
+  <pre><span class="lang-label">Worksheet</span>
+┌─────────────────────────────────────────────────────┐
+│  Who am I hiding from?         → [Level L0-L4]       │
+│  What am I protecting?         → [IP, identity, data]│
+│  How long must I stay hidden?  → [hours/days/forever]│
+│  What happens if caught?       → [fine/prison/death]  │
+│  What resources do I have?     → [budget, equipment]  │
+│  What am I willing to sacrifice?→ [speed, comfort]    │
+└─────────────────────────────────────────────────────┘</pre>
+  <div class="info-box"><strong>Rule:</strong> Your security level must exceed your threat level by at least one tier.</div>
+</div>
+
+<!-- Section 3: Foundation -->
+<div class="section" id="layer-0">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2>Foundation &amp; Mindset</h2>
+  </div>
+
+  <h3>The Golden Rules</h3>
+  <ol>
+    <li><strong>NEVER</strong> mix identities. Your real name never touches your op identity.</li>
+    <li><strong>NEVER</strong> reuse usernames. Each operation gets a unique handle.</li>
+    <li><strong>NEVER</strong> log in. If you can avoid authenticating, do it.</li>
+    <li><strong>NEVER</strong> use personal devices. Use a dedicated burner.</li>
+    <li><strong>NEVER</strong> trust a single anonymizer. Defense in depth always.</li>
+    <li><strong>NEVER</strong> be predictable. Randomize everything.</li>
+    <li><strong>ALWAYS</strong> assume compromise. Plan for when, not if.</li>
+  </ol>
+
+  <h3>The OpSec Mindset</h3>
+  <blockquote>Every action leaves a trace. Your job is not to eliminate traces — it's to make them unlinkable to you.</blockquote>
+
+  <h3>Information Diet</h3>
+  <p>Minimize what goes into your brain that could link to you:</p>
+  <ul>
+    <li>No personal browsing during ops</li>
+    <li>No checking email, social media, or personal accounts</li>
+    <li>No recognizable search patterns</li>
+    <li>No visits to sites you visit as your real self</li>
+  </ul>
+</div>
+
+<!-- Section 4: Network Anonymity -->
+<div class="section" id="layer-1">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2>Network Anonymity</h2>
+  </div>
+  <p>This is the foundation. If your network is compromised, nothing else matters.</p>
+
+  <h3>VPN (Optional but Recommended)</h3>
+  <table>
+    <tr><th>Setup</th><th>Benefit</th></tr>
+    <tr><td>VPN → TOR</td><td>ISP sees VPN, not TOR usage</td></tr>
+    <tr><td>TOR → VPN</td><td>Additional encryption layer</td></tr>
+    <tr><td>VPN → TOR → VPN</td><td>Maximum paranoia (double hop)</td></tr>
+  </table>
+  <p><strong>Recommended:</strong> Mullvad, ProtonVPN, IVPN — pay with cryptocurrency or cash.</p>
+
+  <h3>TOR — The Backbone</h3>
+  <p>The Onion Router bounces your traffic through three relays, encrypting each layer like an onion.</p>
+  <pre><span class="lang-label">Architecture</span>
+You ──▶ Guard Node ──▶ Middle Node ──▶ Exit Node ──▶ Internet
+        (knows you)    (knows nothing)  (knows destination)</pre>
+
+  <h4>Maximum Security torrc</h4>
+  <pre><span class="lang-label">config</span>
+SocksPort 9050
+ControlPort 9051
+CookieAuthentication 0
+DNSPort 5353
+AutomapHostsOnResolve 1
+ExcludeNodes {us},{gb},{ca},{au},{nz}
+ExcludeExitNodes {us},{gb},{ca},{au},{nz}
+StrictNodes 1</pre>
+
+  <h4>Circuit Rotation via Python</h4>
+  <pre><span class="lang-label">python</span>
+import socket
+s = socket.socket()
+s.connect(('127.0.0.1', 9051))
+s.send(b'AUTHENTICATE\r\n')
+s.send(b'SIGNAL NEWNYM\r\n')
+s.close()
+print("TOR circuit rotated")</pre>
+
+  <h3>DNS Leak Prevention</h3>
+  <p>DNS leaks happen when your system bypasses TOR and queries DNS directly.</p>
+  <pre><span class="lang-label">bash</span>
+# Test for DNS leak
+nslookup google.com 8.8.8.8
+# If it responds → YOU HAVE A LEAK
+
+# Fix on Windows
+netsh interface ip set dns "Ethernet" static 127.0.0.1</pre>
+
+  <h3>IPv6 Leak Prevention</h3>
+  <p>IPv6 often bypasses TOR entirely. <strong>Disable it.</strong></p>
+  <pre><span class="lang-label">powershell</span>
+Get-NetAdapterBinding -ComponentID ms_tcpip6 | Disable-NetAdapterBinding -ComponentID ms_tcpip6</pre>
+
+  <h3>MAC Spoofing</h3>
+  <p>Every network interface has a unique MAC address. Change it.</p>
+  <pre><span class="lang-label">bash</span>
+sudo ip link set wlan0 down
+sudo macchanger -r wlan0
+sudo ip link set wlan0 up</pre>
+
+  <h3>Network Verification</h3>
+  <ul class="checklist">
+    <li>TOR is running (port 9050)</li>
+    <li>TOR ControlPort is active (port 9051)</li>
+    <li>Circuit rotation works (NEWNYM returns 250)</li>
+    <li>DNS does NOT leak</li>
+    <li>IPv6 is disabled</li>
+    <li>WebRTC is disabled in browser</li>
+    <li>MAC address is randomized</li>
+    <li>Real IP is hidden (check api.ipify.org through TOR)</li>
+  </ul>
+</div>
+
+<!-- Section 5: OS Security -->
+<div class="section" id="layer-2">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2>Operating System Security</h2>
+  </div>
+
+  <h3>Recommended Operating Systems</h3>
+  <table>
+    <tr><th>OS</th><th>Anonymity</th><th>Use Case</th></tr>
+    <tr><td><strong>Tails</strong></td><td>★★★★★</td><td>Amnesic, all traffic through TOR, leaves no trace on shutdown</td></tr>
+    <tr><td><strong>Whonix</strong></td><td>★★★★★</td><td>Two VMs, all traffic forced through TOR Gateway</td></tr>
+    <tr><td><strong>Qubes OS</strong></td><td>★★★★★</td><td>Compartmentalized VMs with Xen isolation</td></tr>
+    <tr><td><strong>Live Linux</strong></td><td>★★★★</td><td>Bootable USB, minimal persistence</td></tr>
+  </table>
+
+  <h3>Whonix Architecture</h3>
+  <pre><span class="lang-label">Architecture</span>
+┌──────────────┐     ┌──────────────┐     ┌─────────────┐
+│ Whonix-Gateway│────▶│ Workstation  │────▶│   Target     │
+│ (All traffic  │     │ (Your tools)  │     │             │
+│  forced TOR)  │     │               │     │             │
+└──────────────┘     └──────────────┘     └─────────────┘</pre>
+
+  <h3>OS Hardening Checklist</h3>
+  <ul class="checklist">
+    <li>Using Tails, Whonix, or Qubes (not Windows/Mac for ops)</li>
+    <li>Full disk encryption (LUKS with strong passphrase)</li>
+    <li>No swap partition (or encrypted swap)</li>
+    <li>Firewall enabled</li>
+    <li>All unnecessary services disabled</li>
+    <li>No cloud accounts configured</li>
+    <li>No saved passwords in browser</li>
+    <li>No personal files on disk</li>
+    <li>Microphone disabled, webcam covered, Bluetooth disabled</li>
+  </ul>
+</div>
+
+<!-- Section 6: Communication -->
+<div class="section" id="layer-3">
+  <div class="section-header">
+    <div class="section-number">6</div>
+    <h2>Communication Security</h2>
+  </div>
+  <p>Every message can be intercepted. Every conversation can be logged.</p>
+
+  <h3>Encrypted Messaging</h3>
+  <table>
+    <tr><th>App</th><th>Encryption</th><th>Metadata Protection</th><th>Anonymity</th></tr>
+    <tr><td><strong>Signal</strong></td><td>End-to-end</td><td>Minimal (phone number)</td><td>★★★</td></tr>
+    <tr><td><strong>SimpleX</strong></td><td>End-to-end</td><td>None (no identifiers)</td><td>★★★★★</td></tr>
+    <tr><td><strong>Briar</strong></td><td>End-to-end</td><td>None (P2P, no servers)</td><td>★★★★★</td></tr>
+  </table>
+
+  <h3>SimpleX — The Most Anonymous</h3>
+  <ul>
+    <li>No phone number or email required</li>
+    <li>Each conversation has a unique queue (not linked to other chats)</li>
+    <li>No user IDs or profiles</li>
+    <li>Use over TOR for maximum anonymity</li>
+  </ul>
+
+  <h3>PGP Encryption</h3>
+  <pre><span class="lang-label">bash</span>
+# Generate PGP key (offline, in Tails)
+gpg --full-gen-key
+  → RSA 4096
+  → No expiration
+  → No real name, use pseudonym
+
+# Encrypt a message
+gpg --armor --encrypt --recipient "recipient" message.txt
+
+# Decrypt
+gpg --decrypt message.asc</pre>
+</div>
+
+<!-- Section 7: Web & Fingerprinting -->
+<div class="section" id="layer-4">
+  <div class="section-header">
+    <div class="section-number">7</div>
+    <h2>Web Browsing &amp; Fingerprinting</h2>
+  </div>
+  <p>Your browser reveals more about you than your IP.</p>
+
+  <h3>What Browsers Tell Websites</h3>
+  <table>
+    <tr><th>Signal</th><th>Uniqueness</th></tr>
+    <tr><td>Screen resolution</td><td>1:100,000</td></tr>
+    <tr><td>Installed fonts</td><td>1:500,000</td></tr>
+    <tr><td>Canvas fingerprint</td><td>1:100,000</td></tr>
+    <tr><td>Combined fingerprint</td><td>Nearly 100% unique</td></tr>
+  </table>
+
+  <h3>Tor Browser Hardening (about:config)</h3>
+  <pre><span class="lang-label">config</span>
+javascript.enabled = false
+webgl.disabled = true
+media.peerconnection.enabled = false
+geo.enabled = false
+privacy.resistFingerprinting = true
+privacy.trackingprotection.fingerprinting.enabled = true</pre>
+
+  <h3>Browser Leak Tests</h3>
+  <p>Test before every operation:</p>
+  <table>
+    <tr><th>URL</th><th>What It Tests</th></tr>
+    <tr><td>check.torproject.org</td><td>TOR connectivity</td></tr>
+    <tr><td>browserleaks.com/ip</td><td>IP + DNS + WebRTC leaks</td></tr>
+    <tr><td>dnsleaktest.com</td><td>DNS leak</td></tr>
+    <tr><td>ipv6-test.com</td><td>IPv6 leak</td></tr>
+    <tr><td>coveryourtracks.eff.org</td><td>Fingerprinting protection</td></tr>
+  </table>
+</div>
+
+<!-- Section 8: Tool OpSec -->
+<div class="section" id="layer-5">
+  <div class="section-header">
+    <div class="section-number">8</div>
+    <h2>Tool &amp; Development OpSec</h2>
+  </div>
+
+  <h3>Proxy-Wrap All Tools</h3>
+  <pre><span class="lang-label">bash</span>
+# proxychains — forces tool traffic through TOR
+proxychains4 nmap -sS target.com
+
+# torsocks — another TOR wrapper
+torsocks sqlmap -u https://target.com --batch</pre>
+
+  <h3>Tool Randomization</h3>
+  <pre><span class="lang-label">bash</span>
+# Randomize nmap timing
+nmap -T$(shuf -i 1-3 -n1) -sS target.com
+
+# Randomize user-agent in Python
+import random
+agents = ['Mozilla/5.0 (Windows...)', 'Mozilla/5.0 (Macintosh...)']
+headers = {'User-Agent': random.choice(agents)}</pre>
+
+  <h3>Git OpSec</h3>
+  <pre><span class="lang-label">bash</span>
+git config user.name "burner-handle"
+git config user.email "burner@protonmail.com"
+
+# Strip metadata from files
+exiftool -all= script.py</pre>
+
+  <h3>History Wiping</h3>
+  <pre><span class="lang-label">bash</span>
+cat /dev/null > ~/.bash_history
+history -c
+
+# Use one-liner with no-log shell
+bash -c 'set +o history; your_command_here'</pre>
+</div>
+
+<!-- Section 9: Physical Security -->
+<div class="section" id="layer-6">
+  <div class="section-header">
+    <div class="section-number">9</div>
+    <h2>Physical Security</h2>
+  </div>
+  <p>Digital anonymity means nothing if they find you physically.</p>
+
+  <h3>Location Risk Matrix</h3>
+  <table>
+    <tr><th>Location</th><th>Risk</th><th>Mitigation</th></tr>
+    <tr><td>Your home</td><td class="level">HIGH</td><td>Never do it</td></tr>
+    <tr><td>Coffee shop</td><td>MEDIUM</td><td>Different shop each time</td></tr>
+    <tr><td>Library</td><td>MEDIUM</td><td>Different library each time</td></tr>
+    <tr><td>While moving</td><td>LOW</td><td>Train, bus, walking</td></tr>
+    <tr><td>Another city</td><td>VERY LOW</td><td>Ideal</td></tr>
+  </table>
+
+  <h3>Camera Surveillance</h3>
+  <ul>
+    <li>Check for security cameras before operating</li>
+    <li>Wear non-descript clothing</li>
+    <li>Wear a hat/hood that covers your face from ceiling cameras</li>
+    <li>Face away from cameras</li>
+    <li>Use back-facing seats</li>
+  </ul>
+
+  <h3>Burner Device Specs</h3>
+  <ul>
+    <li>Buy with cash</li>
+    <li>No cameras/mics (or disabled physically)</li>
+    <li>Never connect to your home WiFi</li>
+    <li>Never login to personal accounts</li>
+    <li>Destroy or wipe completely after use</li>
+  </ul>
+</div>
+
+<!-- Section 10: Behavioral -->
+<div class="section" id="layer-7">
+  <div class="section-header">
+    <div class="section-number">10</div>
+    <h2>Behavioral OpSec</h2>
+  </div>
+  <p>Your behavior is the hardest thing to mask.</p>
+
+  <h3>Typing Patterns (Keystroke Dynamics)</h3>
+  <p>Every person types with a unique rhythm. This can identify you with 99%+ accuracy.</p>
+  <ul>
+    <li>Type with one hand sometimes</li>
+    <li>Insert random pauses</li>
+    <li>Use different keyboard layouts</li>
+    <li>Copy-paste instead of typing when possible</li>
+  </ul>
+
+  <h3>Language &amp; Writing Style</h3>
+  <p>Your writing style is unique — word choice, sentence length, punctuation, misspellings, capitalization, greetings.</p>
+  <ul>
+    <li>Read your target demographic's content to mimic style</li>
+    <li>Use translation tools to normalize language</li>
+    <li>Write in a different register</li>
+    <li>Never use your real writing quirks or catchphrases</li>
+  </ul>
+
+  <h3>Time &amp; Pace</h3>
+  <ul>
+    <li>Randomize operation times</li>
+    <li>Never operate in a time window overlapping your real schedule</li>
+    <li>Don't rush — mistakes happen when you hurry</li>
+    <li>Take breaks between operations</li>
+    <li>Never brag or share details</li>
+    <li>If something feels wrong, abort immediately</li>
+  </ul>
+</div>
+
+<!-- Section 11: Counter-Forensics -->
+<div class="section" id="layer-8">
+  <div class="section-header">
+    <div class="section-number">11</div>
+    <h2>Counter-Forensics</h2>
+  </div>
+  <p>What happens when someone examines your device after you're done.</p>
+
+  <h3>Secure Deletion</h3>
+  <pre><span class="lang-label">bash</span>
+# Linux — shred (7 passes)
+shred -vzu -n 7 secret_file.txt
+
+# Linux — wipe entire partition
+dd if=/dev/urandom of=/dev/sda bs=4M status=progress
+
+# Windows — cipher
+cipher /w:C:\</pre>
+
+  <h3>Full Disk Encryption</h3>
+  <pre><span class="lang-label">bash</span>
+cryptsetup luksFormat /dev/sda
+cryptsetup open /dev/sda cryptroot
+mkfs.ext4 /dev/mapper/cryptroot
+mount /dev/mapper/cryptroot /mnt</pre>
+
+  <h3>Plausible Deniability</h3>
+  <p>VeraCrypt allows hidden volumes within encrypted volumes. Under duress, you reveal the outer password (decoy files). Real data stays hidden.</p>
+
+  <h3>Memory Forensics</h3>
+  <p>RAM contains encryption keys, open files, and network connections. Immediate shutdown (pull power, don't shut down gracefully). Use Tails (amnesic — nothing in RAM persists).</p>
+
+  <h3>Log Wiping</h3>
+  <pre><span class="lang-label">bash</span>
+# Linux
+find /var/log -type f -exec shred -zu {} \;
+journalctl --vacuum-time=1s
+
+# Windows
+wevtutil cl Application
+wevtutil cl Security
+wevtutil cl System</pre>
+</div>
+
+<!-- Section 12: Nation-State Level -->
+<div class="section" id="layer-9">
+  <div class="section-header">
+    <div class="section-number">12</div>
+    <h2>Advanced — Nation-State Level</h2>
+  </div>
+  <p>These techniques are for when L3/L4 threat actors are your concern.</p>
+
+  <h3>Double TOR</h3>
+  <pre><span class="lang-label">Architecture</span>
+You ──▶ TOR Guard A ──▶ TOR Exit B ──▶ TOR Guard C ──▶ TOR Exit D ──▶ Target</pre>
+  <p>Route TOR through TOR using nested Whonix VMs. Each layer encrypts the next, making correlation nearly impossible.</p>
+
+  <h3>TOR → VPN → TOR</h3>
+  <pre><span class="lang-label">Architecture</span>
+You ──▶ VPN (paid XMR) ──▶ TOR Circuit 1 ──▶ VPN (paid XMR) ──▶ TOR Circuit 2 ──▶ Target</pre>
+  <ul>
+    <li>ISP sees: encrypted traffic to VPN (can't detect TOR)</li>
+    <li>VPN1 sees: TOR traffic (can't link to you)</li>
+    <li>TOR1 sees: VPN2 traffic (can't link to VPN1)</li>
+    <li>TOR2 sees: target (can't link to TOR1)</li>
+  </ul>
+
+  <h3>Decoy Traffic</h3>
+  <pre><span class="lang-label">bash</span>
+# Generate continuous background noise
+while true; do
+    curl -s https://random-site.com > /dev/null
+    sleep $(shuf -i 1-5 -n 1)
+done</pre>
+
+  <h3>Timing Obfuscation</h3>
+  <pre><span class="lang-label">bash</span>
+# Add random delays between requests
+for i in 1 2 3; do
+    sleep $(awk -v min=10 -v max=60 'BEGIN{srand(); print min+rand()*(max-min)}')
+    # Send request
+done</pre>
+
+  <h3>Digital Dead Drops</h3>
+  <ul>
+    <li>Pastebin / rentry.co — self-destructing links</li>
+    <li>Blockchain OP_RETURN fields</li>
+    <li>DNS TXT records of throwaway domains</li>
+    <li>Encrypted messages in public forums</li>
+  </ul>
+
+  <h3>Off-Grid Communication</h3>
+  <ul>
+    <li>Encrypted radio (text over radio)</li>
+    <li>Mesh networks (Briar, goTenna)</li>
+    <li>Steganography (messages hidden in images/audio/video)</li>
+  </ul>
+</div>
+
+<!-- Section 13: After-Action -->
+<div class="section" id="layer-10">
+  <div class="section-header">
+    <div class="section-number">13</div>
+    <h2>After-Action Protocol</h2>
+  </div>
+
+  <h3>Immediate Shutdown</h3>
+  <pre><span class="lang-label">bash</span>
+# 1. Rotate TOR circuit one last time
+echo -e "AUTHENTICATE\r\nSIGNAL NEWNYM\r\n" | nc 127.0.0.1 9051
+
+# 2. Wipe shell history
+cat /dev/null > ~/.bash_history
+history -c
+
+# 3. Wipe temp files
+rm -rf /tmp/*
+rm -rf ~/.cache/*
+
+# 4. Clear clipboard
+echo "" | clip  # Windows
+
+# 5. Shred working files
+shred -vzu -n 7 ./operation_data/*
+
+# 6. Wipe logs
+find /var/log -type f -exec shred -zu {} \;</pre>
+
+  <h3>Post-Operation Period</h3>
+  <ul>
+    <li>No activity for 24-72 hours (cooling period)</li>
+    <li>No discussion of operation (even on secure channels)</li>
+    <li>No logging into any accounts used during operation</li>
+    <li>Monitor for any unusual activity (target response, leaks)</li>
+  </ul>
+
+  <h3>Long-Term Cleanup</h3>
+  <ul>
+    <li>All accounts used during operation deleted</li>
+    <li>All VPS/proxy services cancelled</li>
+    <li>Cryptocurrency wallets emptied and destroyed</li>
+    <li>Any VPN subscriptions burned</li>
+    <li>Dead drops cleaned up</li>
+    <li>Compromised systems wiped if used as relays</li>
+  </ul>
+</div>
+
+<!-- Section 14: The 100% Myth -->
+<div class="section" id="myth">
+  <div class="section-header">
+    <div class="section-number">14</div>
+    <h2>The 100% Safety Myth &amp; Reality</h2>
+  </div>
+
+  <div class="warning"><strong>There is no 100% safe.</strong> Anyone who tells you otherwise is lying or selling something.</div>
+
+  <h3>The Real Math</h3>
+  <table>
+    <tr><th>Protection</th><th>Script Kiddie</th><th>Corporate</th><th>Law Enf.</th><th>Nation-State</th></tr>
+    <tr><td>None</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+    <tr><td>VPN</td><td>95%</td><td>30%</td><td>10%</td><td>2%</td></tr>
+    <tr><td>TOR</td><td>99%</td><td>70%</td><td>40%</td><td>10%</td></tr>
+    <tr><td>Tails + TOR</td><td>99.9%</td><td>85%</td><td>55%</td><td>15%</td></tr>
+    <tr><td>Whonix + TOR</td><td>99.9%</td><td>90%</td><td>60%</td><td>18%</td></tr>
+    <tr><td>VPN→TOR→Tails</td><td>99.99%</td><td>95%</td><td>70%</td><td>25%</td></tr>
+    <tr><td>Full Bundle</td><td>99.999%</td><td>98%</td><td>80%</td><td>40%</td></tr>
+    <tr><td>Off-Grid No Digital</td><td>100%</td><td>99%</td><td>90%</td><td>60%</td></tr>
+  </table>
+
+  <h3>Why 100% Is Impossible</h3>
+  <ol>
+    <li>Physical surveillance — They can follow you</li>
+    <li>Zero-day exploits — They know things you don't</li>
+    <li>Global traffic correlation — They can match timing across all traffic</li>
+    <li>AI pattern analysis — They find patterns humans can't</li>
+    <li>Social engineering — They can trick people close to you</li>
+    <li>Rubber-hose cryptanalysis — They can force cooperation</li>
+    <li>Chain-of-weakest-link — You only need one mistake</li>
+  </ol>
+
+  <h3>The 90%+ Strategy</h3>
+  <ol>
+    <li>Use Tails/Whonix on dedicated hardware (never personal)</li>
+    <li>VPN → TOR → VPN (double VPN + TOR)</li>
+    <li>Purchase everything with cryptocurrency (no ID)</li>
+    <li>Operate from public locations (never home)</li>
+    <li>Use different op-identities for different operations</li>
+    <li>Never reuse infrastructure</li>
+    <li>Automate everything (reduce human error)</li>
+    <li>Accept that you are slowing them down, not stopping them</li>
+    <li>Know when to walk away</li>
+  </ol>
+
+  <blockquote>
+    <strong>The goal is not to be untraceable. The goal is to be uneconomical to trace.</strong><br>
+    You don't need to be faster than the bear. You just need to be faster than the other guy.
+  </blockquote>
+</div>
+
+<!-- Section 15: Tools -->
+<div class="section" id="tools">
+  <div class="section-header">
+    <div class="section-number">15</div>
+    <h2>Tool Reference</h2>
+  </div>
+
+  <h3>Essential Tools</h3>
+  <table>
+    <tr><th>Tool</th><th>Purpose</th><th>URL</th></tr>
+    <tr><td>Tails OS</td><td>Amnesic anonymous OS</td><td>https://tails.net</td></tr>
+    <tr><td>Whonix</td><td>Anonymous VM platform</td><td>https://whonix.org</td></tr>
+    <tr><td>Qubes OS</td><td>Security desktop OS</td><td>https://qubes-os.org</td></tr>
+    <tr><td>Tor Browser</td><td>Anonymous browsing</td><td>https://torproject.org</td></tr>
+    <tr><td>Mullvad VPN</td><td>Privacy VPN (cash)</td><td>https://mullvad.net</td></tr>
+    <tr><td>Signal</td><td>Encrypted messaging</td><td>https://signal.org</td></tr>
+    <tr><td>SimpleX</td><td>Metadata-free messaging</td><td>https://simplex.chat</td></tr>
+    <tr><td>ProtonMail</td><td>Anonymous email</td><td>https://protonmail.com</td></tr>
+    <tr><td>VeraCrypt</td><td>Full disk encryption</td><td>https://veracrypt.fr</td></tr>
+  </table>
+
+  <h3>Python Libraries</h3>
+  <pre><span class="lang-label">bash</span>
+pip install pysocks        # SOCKS5 proxy support
+pip install stem           # TOR controller library
+pip install cryptography   # Encryption primitives</pre>
+
+  <h3>TOR Control with Python (stem)</h3>
+  <pre><span class="lang-label">python</span>
+from stem import Signal
+from stem.control import Controller
+
+with Controller.from_port(port=9051) as controller:
+    controller.authenticate()
+    controller.signal(Signal.NEWNYM)
+    print("TOR circuit rotated")</pre>
+</div>
+
+<!-- Section 16: Quick Start -->
+<div class="section" id="quickstart">
+  <div class="section-header">
+    <div class="section-number">16</div>
+    <h2>Quick Start Checklist</h2>
+  </div>
+
+  <h3>Minimum — 30 Minutes</h3>
+  <ul class="checklist">
+    <li>Install Tor Browser</li>
+    <li>Enable "Safest" security level</li>
+    <li>Verify at check.torproject.org</li>
+    <li>Disable JavaScript</li>
+    <li>Test at browserleaks.com</li>
+  </ul>
+
+  <h3>Medium — 2 Hours</h3>
+  <ul class="checklist">
+    <li>Install Tails OS on USB</li>
+    <li>Configure encrypted persistent storage</li>
+    <li>Set up Signal on burner phone</li>
+    <li>Register ProtonMail via TOR</li>
+    <li>Test full anonymity at check.torproject.org</li>
+  </ul>
+
+  <h3>High — 1 Day</h3>
+  <ul class="checklist">
+    <li>Install Whonix in VirtualBox/KVM</li>
+    <li>Configure VPN → TOR chain</li>
+    <li>Set up proxychains for all tools</li>
+    <li>MAC spoofing ready</li>
+    <li>DNS leak verified</li>
+    <li>Full disk encryption on host</li>
+  </ul>
+
+  <h3>Maximum — 1 Week+</h3>
+  <ul class="checklist">
+    <li>Qubes OS on dedicated hardware</li>
+    <li>Double TOR with multiple Whonix VMs</li>
+    <li>VPN → TOR → VPN chain</li>
+    <li>Multiple physical operation locations scouted</li>
+    <li>Decoy traffic infrastructure</li>
+    <li>Dead drop locations established</li>
+    <li>Off-grid communication tested</li>
+    <li>Complete after-action protocol rehearsed</li>
+  </ul>
+
+  <hr style="border-color: var(--border); margin: 40px 0;">
+
+  <h3>Final Words</h3>
+  <blockquote>
+    <strong>Anonymity is a practice, not a tool.</strong> You don't buy anonymity. You practice it every day.<br><br>
+    Every mistake is a leak. Every shortcut is a risk. Every assumption is a vulnerability.<br><br>
+    Stay paranoid. Stay safe.
+  </blockquote>
+
+  <p style="color: var(--fg2); font-size: 13px; margin-top: 30px;">
+    <em>Zero Trace Protocol v2.0 — AdhiHub Zero Trace Project.<br>
+    For educational and defensive purposes only.</em>
+  </p>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('show');
+}
+
+// Highlight active section in sidebar
+const sections = document.querySelectorAll('.section');
+const links = document.querySelectorAll('#sidebar a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`#sidebar a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
